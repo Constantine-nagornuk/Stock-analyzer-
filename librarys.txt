@@ -1,0 +1,7 @@
+pip install yfinance
+
+stocks names - https://stockanalysis.com/stocks/
+api doc - https://ranaroussi.github.io/yfinance/reference/api/yfinance.Ticker.dividends.html 
+pandas api doc - https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf
+pip install 
+pip install matplotlib
