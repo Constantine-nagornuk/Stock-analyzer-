@@ -1,14 +1,17 @@
 import yfinance as yf # ignore the red tag doesnt acc do anything
 import pandas as pd
 import matplotlib.pyplot as plt 
+import matplotlib.dates as mdates
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 About = {}
 
 def drawgraph(frameview):
     Stock_Choice = "TSLA"
     STOCK = yf.Ticker(Stock_Choice)
+    period = "1d"
+    iterval = "1h"
+
     def General_Info(Input):
-        
         About["Industry"] = Input["industry"]
         About["quoteType"] = Input["quoteType"]
         About["averageAnalystRating"] = Input["averageAnalystRating"] # 1-5 scale, lower is strong sell, higher is stogng buy 
@@ -16,26 +19,28 @@ def drawgraph(frameview):
         About["shareHolderRightsRisk"] = Input["shareHolderRightsRisk"] # 1-10 scale higher number  = more risk
         About["tradeable"] = Input["tradeable"]
         About["totalDebt"] = Input["totalDebt"]
+        About["Stock"] = Input["regularMarketPreviousClose"]
         print(About)
     General_Info(STOCK.info)
 
-    Data = STOCK.history(period="1y", interval="1d")
-    Data = Data.drop(columns=['Dividends','Stock Splits'])
-    Day_Open_Price = Data['Open']
-    Day_High_Price = Data["High"]
-    Day_Low_Price = Data["Low"]
-    Day_Close_Price = Data["Close"]
-    Day_Volume_Price = Data["Volume"]
 
-    fig, ax = plt.subplots(figsize=(8, 4))
-    ax.plot(Day_Open_Price, label="Price", color='blue')
-    ax.axhline(y=Day_Open_Price.iloc[0], color='green', linestyle='--', label=f'First Open ({Day_Open_Price.iloc[0]:.2f})')
-    ax.axhline(y=Day_Open_Price.iloc[-1], color='red', linestyle='--', label=f'Last Open ({Day_Open_Price.iloc[-1]:.2f})')
-    ax.set_title('Tesla Stock Open Price Over the Last Year')
-    ax.set_xlabel('Date')
-    ax.set_ylabel('Price')
-    ax.legend()
+
+    Data = STOCK.history(period=period, interval=iterval)
+    StockPrice = Data['Close']
+   
+
+    fig, ax = plt.subplots(figsize=(8, 5))
+    fig.subplots_adjust(right=0.75)
+    fig.subplots_adjust(bottom=0.35)
+    ax.plot(StockPrice, label="Price", color='blue')
+    ax.axhline(y=StockPrice.iloc[0], color='green', linestyle='--', label=f'First Close (${StockPrice.iloc[0]:.2f})')
+    ax.axhline(y=StockPrice.iloc[-1], color='red', linestyle='--', label=f'Last Close (${StockPrice.iloc[-1]:.2f})')
+    ax.set_title(f"{Stock_Choice} Price Trend — {period} ({iterval} intervals)", fontsize=14)
+    ax.set_xlabel("Date", fontsize=12)
+    ax.set_ylabel("Stock Price (USD)", fontsize=12)
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.20), ncol=3, fontsize=10)    
     canvas = FigureCanvasTkAgg(fig, master= frameview)
+    fig.autofmt_xdate()
     canvas.draw()
     canvas.get_tk_widget().grid(padx=20, pady=20, sticky="nsew")
 

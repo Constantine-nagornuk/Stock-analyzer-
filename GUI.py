@@ -9,7 +9,7 @@ def Stock_Graph():
     label1.grid(row=1 , column=0, pady=10)
     # make this a loop so I dont have to type out like million things :)
 app = CTk()
-app.geometry("1200x800")
+app.geometry("1400x800")
 app.title("Stock-Project")
 set_appearance_mode("dark")
 set_default_color_theme("dark-blue")
@@ -37,31 +37,36 @@ tab1.grid_columnconfigure(1, weight=1)
 
 #--------------------------------------------------------------------------#
 
-frame1 = CTkFrame(master=tab1,fg_color="Green")
+frame1 = CTkScrollableFrame(master=tab1,fg_color="Green", width=500)
 frame1.grid(row=0, column=0, padx=5, pady=10, sticky="nsew")
-frame2 = CTkFrame(master=tab1, fg_color="Red")
+frame2 = CTkFrame(master=tab1, fg_color="Red", width=200)
 frame2.grid(row=0, column=1, padx=5, pady=10, sticky="nsew")
 
 frame1.grid_rowconfigure(0, weight=0)
 frame1.grid_rowconfigure(1, weight=0)
-frame2.grid_columnconfigure(0, weight=1)
 
+frame2.grid_columnconfigure(0, weight=1)
+frame2.grid_columnconfigure(1, weight=0)
 frame2.grid_rowconfigure(0, weight=0)
 frame2.grid_rowconfigure(1, weight=0)
 frame2.grid_rowconfigure(2, weight=0)
-frame2.grid_columnconfigure(0, weight=1)
+
 # master of frames is tab1 they go into that row and column configure of that
 #--------------------------------------------------------------------------#
 
 button = CTkButton(master=frame2, text="Graph", command=Stock_Graph)
-button.grid(padx=2, pady=4, row=0,column=0)
+button.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky="n")
 
 def optionmenu_callback(choice):
     print("optionmenu dropdown clicked:", choice)
 optionmenu_var = customtkinter.StringVar(value="option 2")
 optionmenu = customtkinter.CTkOptionMenu(values=["option 1", "option 2"],command=optionmenu_callback,variable=optionmenu_var, master= frame2)
-optionmenu.grid(row=1,padx=2, pady=4, column=0)
+optionmenu.grid(row=1,padx=2, pady=4, column=0,columnspan=1)
 
-
+def optionmenu_callback2(choice):
+    print("optionmenu dropdown clicked:", choice)
+optionmenu_var1 = customtkinter.StringVar(value="option 2")
+optionmenu1 = customtkinter.CTkOptionMenu(values=["option 1", "option 2"],command=optionmenu_callback2,variable=optionmenu_var1, master= frame2)
+optionmenu1.grid(row=3,padx=5, pady=4, column=1, columnspan=1)
 
 app.mainloop()
