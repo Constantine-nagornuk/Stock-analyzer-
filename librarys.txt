@@ -2,7 +2,7 @@ pip install yfinance
 pip install customtkinter
 pip install 
 pip install matplotlib
-
+py -3.11-m pip install customtkinter ( fixed the customkinter issue for install) 
 
 stocks names - https://stockanalysis.com/stocks/
 api doc - https://ranaroussi.github.io/yfinance/reference/api/yfinance.Ticker.dividends.html 

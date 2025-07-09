@@ -2,13 +2,13 @@ import yfinance as yf # ignore the red tag doesnt acc do anything
 import pandas as pd
 import matplotlib.pyplot as plt 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+About = {}
 
-
-def drawgraph(frameview,inputthing):
+def drawgraph(frameview):
     Stock_Choice = "TSLA"
     STOCK = yf.Ticker(Stock_Choice)
     def General_Info(Input):
-        About = {}
+        
         About["Industry"] = Input["industry"]
         About["quoteType"] = Input["quoteType"]
         About["averageAnalystRating"] = Input["averageAnalystRating"] # 1-5 scale, lower is strong sell, higher is stogng buy 
@@ -27,7 +27,7 @@ def drawgraph(frameview,inputthing):
     Day_Close_Price = Data["Close"]
     Day_Volume_Price = Data["Volume"]
 
-    fig, ax = plt.subplots(figsize=(6, 4))
+    fig, ax = plt.subplots(figsize=(8, 4))
     ax.plot(Day_Open_Price, label="Price", color='blue')
     ax.axhline(y=Day_Open_Price.iloc[0], color='green', linestyle='--', label=f'First Open ({Day_Open_Price.iloc[0]:.2f})')
     ax.axhline(y=Day_Open_Price.iloc[-1], color='red', linestyle='--', label=f'Last Open ({Day_Open_Price.iloc[-1]:.2f})')
@@ -37,7 +37,7 @@ def drawgraph(frameview,inputthing):
     ax.legend()
     canvas = FigureCanvasTkAgg(fig, master= frameview)
     canvas.draw()
-    canvas.get_tk_widget().pack(expand=True, fill="both")
+    canvas.get_tk_widget().grid(padx=20, pady=20, sticky="nsew")
 
 
 
