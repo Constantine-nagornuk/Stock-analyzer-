@@ -5,12 +5,12 @@ import matplotlib.dates as mdates
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 About = {}
 
-def drawgraph(frameview):
+def drawgraph(frameview, prd , it):
     Stock_Choice = "TSLA"
     STOCK = yf.Ticker(Stock_Choice)
-    period = "1d"
-    iterval = "1h"
-
+    period = prd
+    iterval = it
+    # now it should need button input in order to even graph in first place
     def General_Info(Input):
         About["Industry"] = Input["industry"]
         About["quoteType"] = Input["quoteType"]
@@ -20,7 +20,6 @@ def drawgraph(frameview):
         About["tradeable"] = Input["tradeable"]
         About["totalDebt"] = Input["totalDebt"]
         About["Stock"] = Input["regularMarketPreviousClose"]
-        print(About)
     General_Info(STOCK.info)
 
 
@@ -29,7 +28,7 @@ def drawgraph(frameview):
     StockPrice = Data['Close']
    
 
-    fig, ax = plt.subplots(figsize=(8, 5))
+    fig, ax = plt.subplots(figsize=(8, 5.5))
     fig.subplots_adjust(right=0.75)
     fig.subplots_adjust(bottom=0.35)
     ax.plot(StockPrice, label="Price", color='blue')
@@ -42,7 +41,7 @@ def drawgraph(frameview):
     canvas = FigureCanvasTkAgg(fig, master= frameview)
     fig.autofmt_xdate()
     canvas.draw()
-    canvas.get_tk_widget().grid(padx=20, pady=20, sticky="nsew")
+    canvas.get_tk_widget().grid(padx=20, pady=20, sticky="nsew", row=0, column=0, columnspan=2)
 
 
 

@@ -3,10 +3,19 @@ from customtkinter import *
 from API import * 
 
 def Stock_Graph():
-    drawgraph(frame1)
-    Text1 = About["Industry"]
-    label1 = customtkinter.CTkLabel(master=frame1, text= Text1 , fg_color="Black", text_color="White")
-    label1.grid(row=1 , column=0, pady=10)
+    period = period_var.get()
+    interval = interval_var.get()
+    drawgraph(frame1,period,interval) 
+    number = 1
+    number2 = 0
+    for i in About:
+        text2 = About[i]
+        if number>=5:
+            number2 = 1
+            number = 1
+        label2 = customtkinter.CTkLabel(master=frame1, text=f'{i},{text2}' , fg_color="Black", text_color="White")
+        label2.grid(row=number , column=number2, pady=10)
+        number += 1 
     # make this a loop so I dont have to type out like million things :)
 app = CTk()
 app.geometry("1400x800")
@@ -37,13 +46,17 @@ tab1.grid_columnconfigure(1, weight=1)
 
 #--------------------------------------------------------------------------#
 
-frame1 = CTkScrollableFrame(master=tab1,fg_color="Green", width=500)
+frame1 = CTkScrollableFrame(master=tab1,fg_color="transparent", width=500)
 frame1.grid(row=0, column=0, padx=5, pady=10, sticky="nsew")
-frame2 = CTkFrame(master=tab1, fg_color="Red", width=200)
+frame2 = CTkFrame(master=tab1, fg_color="transparent", width=200)
 frame2.grid(row=0, column=1, padx=5, pady=10, sticky="nsew")
 
-frame1.grid_rowconfigure(0, weight=0)
-frame1.grid_rowconfigure(1, weight=0)
+for i in range(4):
+    frame1.grid_rowconfigure(i, weight=0)
+frame1.grid_columnconfigure(0, weight=0)
+frame1.grid_columnconfigure(1, weight=0)
+
+
 
 frame2.grid_columnconfigure(0, weight=1)
 frame2.grid_columnconfigure(1, weight=0)
@@ -57,16 +70,36 @@ frame2.grid_rowconfigure(2, weight=0)
 button = CTkButton(master=frame2, text="Graph", command=Stock_Graph)
 button.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky="n")
 
-def optionmenu_callback(choice):
-    print("optionmenu dropdown clicked:", choice)
-optionmenu_var = customtkinter.StringVar(value="option 2")
-optionmenu = customtkinter.CTkOptionMenu(values=["option 1", "option 2"],command=optionmenu_callback,variable=optionmenu_var, master= frame2)
-optionmenu.grid(row=1,padx=2, pady=4, column=0,columnspan=1)
 
-def optionmenu_callback2(choice):
-    print("optionmenu dropdown clicked:", choice)
-optionmenu_var1 = customtkinter.StringVar(value="option 2")
-optionmenu1 = customtkinter.CTkOptionMenu(values=["option 1", "option 2"],command=optionmenu_callback2,variable=optionmenu_var1, master= frame2)
-optionmenu1.grid(row=3,padx=5, pady=4, column=1, columnspan=1)
+
+# --- Period OptionMenu --- #
+
+period_options = [
+    "1d", "5d", "1mo", "3mo", "6mo",
+    "1y", "2y", "5y", "10y", "ytd", "max"
+]
+period_var = customtkinter.StringVar(value="1mo")
+period_menu = customtkinter.CTkOptionMenu(
+    master=frame2,
+    values=period_options,
+    variable=period_var
+)
+period_menu.grid(row=1, column=0, padx=5, pady=4, columnspan=1, sticky="ew")
+# --- Interval OptionMenu --- #
+
+interval_options = [
+    "1m", "2m", "5m", "15m", "30m", "60m", "90m",
+    "1h", "1d", "5d", "1wk", "1mo", "3mo"
+]
+interval_var = customtkinter.StringVar(value="1d")
+interval_menu = customtkinter.CTkOptionMenu(
+    master=frame2,
+    values=interval_options,
+    variable=interval_var
+)
+interval_menu.grid(row=2, column=0, padx=5, pady=4, columnspan=1, sticky="ew")
+#--------------------------------------------------------------------------#
+dropdown_label = CTkLabel(master=frame2, text="Select Period & Interval", text_color="white")
+dropdown_label.grid(row=1, column=0, pady=(10, 5), padx=10)
 
 app.mainloop()
