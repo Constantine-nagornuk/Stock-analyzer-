@@ -6,15 +6,15 @@ def Stock_Graph():
     period = period_var.get()
     interval = interval_var.get()
     drawgraph(frame1,period,interval) 
-    number = 1
+    number = 3
     number2 = 0
     for i in About:
         text2 = About[i]
-        if number>=5:
+        if number>=6:
             number2 = 1
-            number = 1
-        label2 = customtkinter.CTkLabel(master=frame1, text=f'{i},{text2}' , fg_color="Black", text_color="White")
-        label2.grid(row=number , column=number2, pady=10)
+            number = 3
+        label2 = customtkinter.CTkLabel(master=frame2, text=f'{i},{text2}' , fg_color="Black", text_color="White")
+        label2.grid(row=number , column=number2, pady=10, columnspan=1)
         number += 1 
     # make this a loop so I dont have to type out like million things :)
 app = CTk()
@@ -51,7 +51,7 @@ frame1.grid(row=0, column=0, padx=5, pady=10, sticky="nsew")
 frame2 = CTkFrame(master=tab1, fg_color="transparent", width=200)
 frame2.grid(row=0, column=1, padx=5, pady=10, sticky="nsew")
 
-for i in range(4):
+for i in range(2):
     frame1.grid_rowconfigure(i, weight=0)
 frame1.grid_columnconfigure(0, weight=0)
 frame1.grid_columnconfigure(1, weight=0)
@@ -59,10 +59,9 @@ frame1.grid_columnconfigure(1, weight=0)
 
 
 frame2.grid_columnconfigure(0, weight=1)
-frame2.grid_columnconfigure(1, weight=0)
-frame2.grid_rowconfigure(0, weight=0)
-frame2.grid_rowconfigure(1, weight=0)
-frame2.grid_rowconfigure(2, weight=0)
+frame2.grid_columnconfigure(1, weight=1)
+for i in range(6):
+    frame1.grid_rowconfigure(i, weight=0)
 
 # master of frames is tab1 they go into that row and column configure of that
 #--------------------------------------------------------------------------#
@@ -84,7 +83,7 @@ period_menu = customtkinter.CTkOptionMenu(
     values=period_options,
     variable=period_var
 )
-period_menu.grid(row=1, column=0, padx=5, pady=4, columnspan=1, sticky="ew")
+period_menu.grid(row=1, column=0, padx=5, pady=4, columnspan=2, sticky="ew")
 # --- Interval OptionMenu --- #
 
 interval_options = [
@@ -97,9 +96,7 @@ interval_menu = customtkinter.CTkOptionMenu(
     values=interval_options,
     variable=interval_var
 )
-interval_menu.grid(row=2, column=0, padx=5, pady=4, columnspan=1, sticky="ew")
+interval_menu.grid(row=2, column=0, padx=5, pady=4, columnspan=2, sticky="ew")
 #--------------------------------------------------------------------------#
-dropdown_label = CTkLabel(master=frame2, text="Select Period & Interval", text_color="white")
-dropdown_label.grid(row=1, column=0, pady=(10, 5), padx=10)
 
 app.mainloop()
