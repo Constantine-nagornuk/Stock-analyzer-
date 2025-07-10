@@ -27,16 +27,16 @@ set_default_color_theme("dark-blue")
 
 tabview = CTkTabview(master=app)
 tabview.grid(row=0, padx=20, pady=5, sticky="nsew")
-tabview.add("tab 1")
+tabview.add("Graph")
 tabview.add("tab 2")
-tabview.set("tab 1")
+tabview.set("Graph")
  
 #--------------------------------------------------------------------------#
 
 app.grid_rowconfigure(0, weight=1)
 app.grid_columnconfigure(0, weight=1)
 
-tab1 = tabview.tab("tab 1")
+tab1 = tabview.tab("Graph")
 tab1.grid_rowconfigure(0, weight=1)
 
 tab1.grid_columnconfigure(0, weight=1)
