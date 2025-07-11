@@ -6,11 +6,10 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 About = {}
 
 def drawgraph(frameview, prd , it):
-    Stock_Choice = "TSLA"
+    Stock_Choice = "TSLA" # allow this to also be a input through the GUI portion instead of being static
     STOCK = yf.Ticker(Stock_Choice)
     period = prd
     iterval = it
-    # now it should need button input in order to even graph in first place
     def General_Info(Input):
         About["Industry"] = Input["industry"]
         About["quoteType"] = Input["quoteType"]

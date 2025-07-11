@@ -1,8 +1,11 @@
 pip install yfinance
 pip install customtkinter
-pip install 
+pip install mplfinance
 pip install matplotlib
 pip install --upgrade mplfinance
+pip install tensorflow
+# had to run in command promot on laptop as admin to get them going (?)
+
 import matplotlib.dates as mdates
 py -3.11-m pip install customtkinter ( fixed the customkinter issue for install) 
 
@@ -12,4 +15,6 @@ pandas api doc - https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf
 
 
 
-Tkinter stuff for ui?
+https://www.tensorflow.org/tutorials/images/cnn#compile_and_train_the_model
+
+read more about CNN here again and search up CNN and how it works outside resource as well

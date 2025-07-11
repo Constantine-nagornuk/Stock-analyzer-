@@ -4,19 +4,45 @@ import yfinance as yf # ignore the red tag doesnt acc do anything
 import pandas as pd
 import matplotlib.pyplot as plt 
 import matplotlib.dates as mdates
+import os
+from PIL import Image
 
 
-Stock_Choice = "TSLA"
+
+Stock_Choice = "BUD"
 STOCK = yf.Ticker(Stock_Choice)
 Data = STOCK.history(period="1mo", interval="1d")
 Data = Data.drop(columns=['Dividends','Stock Splits'])
 Data.index = pd.to_datetime(Data.index.date)
 
 
-print(Data)
 
 
-mpf.plot(Data,type='candle',mav=2, style='yahoo')
+
+""" mpf.plot(Data,type='candle', style='yahoo') # bigger mav =  simpler line  """
+
+
+BULLISH_DIR = 'TrainingSets/Bearish'
+BEARISH_DIR = 'TrainingSets/Bullish'
+def preview_image(path):
+    img = Image.open(path)
+    plt.imshow(img)
+    plt.axis('off')
+    plt.title(os.path.basename(path))
+    plt.show()
+""" preview_image('TrainingSets/Bullish/8.png')  """
+
+
+
+
+
+
+
+
+
+
+
+
 
 #https://github.com/matplotlib/mplfinance/blob/master/examples/using_lines.ipynb
 # allow user to draw diffrent lines with diffrent inputs they want
