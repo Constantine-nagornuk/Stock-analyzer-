@@ -19,7 +19,7 @@ Data.index = pd.to_datetime(Data.index.date)
 
 
 
-""" mpf.plot(Data,type='candle', style='yahoo') # bigger mav =  simpler line  """
+mpf.plot(Data,type='candle', style='yahoo') # bigger mav =  simpler line  
 
 
 BULLISH_DIR = 'TrainingSets/Bearish'
