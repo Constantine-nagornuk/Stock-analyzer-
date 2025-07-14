@@ -107,7 +107,7 @@ model.compile(
 )
 
 # Load your own image
-img_path = "TrainingSets/Bearish/16.png"
+img_path = "TrainingSets/Bullish/4.png"
 img = image.load_img(img_path, target_size=(224, 224))
 img_array = np.expand_dims(np.array(img) / 255.0, axis=0)
 
@@ -115,3 +115,5 @@ img_array = np.expand_dims(np.array(img) / 255.0, axis=0)
 pred = model.predict(img_array)[0][0]
 label = "🟢 Bullish" if pred > 0.5 else "🔴 Bearish"
 print(f"Prediction: {label} (confidence: {pred:.2f})")
+
+# need way more bearish data to make it better, lot more confident with bullish data

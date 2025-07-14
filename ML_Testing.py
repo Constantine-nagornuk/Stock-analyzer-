@@ -9,7 +9,7 @@ from PIL import Image
 
 
 
-Stock_Choice = "FOXA"
+Stock_Choice = "MULN"
 STOCK = yf.Ticker(Stock_Choice)
 Data = STOCK.history(period="1mo", interval="1d")
 Data = Data.drop(columns=['Dividends','Stock Splits'])
