@@ -12,7 +12,7 @@ import os
 IMAGE_DIR = "TrainingSets"  
 IMG_SIZE = (224, 224)
 BATCH_SIZE = 16
-EPOCHS = 10
+EPOCHS = 20
 MODEL_OUTPUT = "trend_classifier_model.h5"
 
 
@@ -70,7 +70,7 @@ history = model.fit(
 )
 
 # ✅ Save model
-model.save(MODEL_OUTPUT)
+model.save(MODEL_OUTPUT)  
 print(f"\n✅ Model saved to {MODEL_OUTPUT}")
 
 
@@ -79,6 +79,11 @@ print(f"\n✅ Model saved to {MODEL_OUTPUT}")
 
 # Load the trained model
 model = load_model("trend_classifier_model.h5")
+model.compile(
+    optimizer=Adam(learning_rate=0.0003),
+    loss='binary_crossentropy',
+    metrics=['accuracy']
+)
 
 # Load your own image
 img_path = "TrainingSets/Bearish/22.png"

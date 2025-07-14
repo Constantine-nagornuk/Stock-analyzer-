@@ -9,7 +9,7 @@ from PIL import Image
 
 
 
-Stock_Choice = "BUD"
+Stock_Choice = "AA"
 STOCK = yf.Ticker(Stock_Choice)
 Data = STOCK.history(period="1mo", interval="1d")
 Data = Data.drop(columns=['Dividends','Stock Splits'])
@@ -19,8 +19,15 @@ Data.index = pd.to_datetime(Data.index.date)
 
 
 
-mpf.plot(Data,type='candle', style='yahoo') # bigger mav =  simpler line  
 
+DOWNLOADS = os.path.join(os.path.expanduser("~"), "Downloads")
+filename = os.path.join(DOWNLOADS, f"{Stock_Choice}_candlestick.png")
+mpf.plot(
+    Data,
+    type='candle',
+    style='yahoo',
+    savefig=filename
+)
 
 BULLISH_DIR = 'TrainingSets/Bearish'
 BEARISH_DIR = 'TrainingSets/Bullish'
