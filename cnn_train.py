@@ -18,13 +18,13 @@ MODEL_OUTPUT = "trend_classifier_model.h5"
 
 datagen = ImageDataGenerator(
     rescale=1./255,
-    rotation_range=15,
     width_shift_range=0.1,
     height_shift_range=0.1,
     zoom_range=0.1,
-    horizontal_flip=True,
+    horizontal_flip=False,
     validation_split=0.2
 )
+
 train_data = datagen.flow_from_directory(
     IMAGE_DIR,
     target_size=IMG_SIZE,
@@ -41,6 +41,26 @@ val_data = datagen.flow_from_directory(
     class_mode='binary',
     subset='validation'
 )
+
+# ✅ Print summary of loaded images
+print("\n📊 Image Counts:")
+print(f"Train: {train_data.samples} images")
+print(f"Validation: {val_data.samples} images")
+print(f"Class Indices: {train_data.class_indices}")
+
+# ✅ Count raw images from folders
+def print_image_counts(path):
+    print("\n📁 Folder Image Counts:")
+    for class_name in os.listdir(path):
+        class_path = os.path.join(path, class_name)
+        if os.path.isdir(class_path):
+            count = len([
+                f for f in os.listdir(class_path)
+                if f.lower().endswith(('.png', '.jpg', '.jpeg'))
+            ])
+            print(f"{class_name}: {count} images")
+
+print_image_counts(IMAGE_DIR)
 
 # ✅ CNN Architecture
 model = Sequential([
@@ -69,17 +89,14 @@ early_stop = EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=
 
 history = model.fit(
     train_data,
-    epochs=50,
+    epochs=10,
     validation_data=val_data,
     callbacks=[early_stop]
 )
+
 # ✅ Save model
 model.save(MODEL_OUTPUT)  
 print(f"\n✅ Model saved to {MODEL_OUTPUT}")
-
-
-
-
 
 # Load the trained model
 model = load_model("trend_classifier_model.h5")
@@ -90,7 +107,7 @@ model.compile(
 )
 
 # Load your own image
-img_path = "TrainingSets/Bearish/22.png"
+img_path = "TrainingSets/Bearish/16.png"
 img = image.load_img(img_path, target_size=(224, 224))
 img_array = np.expand_dims(np.array(img) / 255.0, axis=0)
 
