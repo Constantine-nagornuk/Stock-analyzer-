@@ -4,6 +4,8 @@ pip install mplfinance
 pip install matplotlib
 pip install --upgrade mplfinance
 pip install tensorflow
+pip install scipy
+
 # had to run in command promot on laptop as admin to get them going (?)
 
 import matplotlib.dates as mdates
@@ -18,3 +20,5 @@ pandas api doc - https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf
 https://www.tensorflow.org/tutorials/images/cnn#compile_and_train_the_model
 
 read more about CNN here again and search up CNN and how it works outside resource as well
+
+This has to run on pyhton 3.11 since there is no tensorflow support past that version

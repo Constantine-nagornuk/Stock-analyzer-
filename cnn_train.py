@@ -5,6 +5,7 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropou
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
+from tensorflow.keras.callbacks import EarlyStopping
 import numpy as np
 import os
 
@@ -12,15 +13,18 @@ import os
 IMAGE_DIR = "TrainingSets"  
 IMG_SIZE = (224, 224)
 BATCH_SIZE = 16
-EPOCHS = 20
+EPOCHS = 10
 MODEL_OUTPUT = "trend_classifier_model.h5"
-
 
 datagen = ImageDataGenerator(
     rescale=1./255,
+    rotation_range=15,
+    width_shift_range=0.1,
+    height_shift_range=0.1,
+    zoom_range=0.1,
+    horizontal_flip=True,
     validation_split=0.2
 )
-
 train_data = datagen.flow_from_directory(
     IMAGE_DIR,
     target_size=IMG_SIZE,
@@ -61,14 +65,14 @@ model.compile(
     metrics=['accuracy']
 )
 
-# ✅ Train
-print("\n📈 Training model...\n")
+early_stop = EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
+
 history = model.fit(
     train_data,
-    epochs=EPOCHS,
-    validation_data=val_data
+    epochs=50,
+    validation_data=val_data,
+    callbacks=[early_stop]
 )
-
 # ✅ Save model
 model.save(MODEL_OUTPUT)  
 print(f"\n✅ Model saved to {MODEL_OUTPUT}")

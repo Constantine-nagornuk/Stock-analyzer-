@@ -9,7 +9,7 @@ from PIL import Image
 
 
 
-Stock_Choice = "AA"
+Stock_Choice = "FOXA"
 STOCK = yf.Ticker(Stock_Choice)
 Data = STOCK.history(period="1mo", interval="1d")
 Data = Data.drop(columns=['Dividends','Stock Splits'])
@@ -28,18 +28,6 @@ mpf.plot(
     style='yahoo',
     savefig=filename
 )
-
-BULLISH_DIR = 'TrainingSets/Bearish'
-BEARISH_DIR = 'TrainingSets/Bullish'
-def preview_image(path):
-    img = Image.open(path)
-    plt.imshow(img)
-    plt.axis('off')
-    plt.title(os.path.basename(path))
-    plt.show()
-""" preview_image('TrainingSets/Bullish/8.png')  """
-
-
 
 
 
