@@ -3,9 +3,18 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 import matplotlib.dates as mdates
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import os
+import glob
 About = {}
 
 def drawgraph(frameview, prd , it):
+    project_root = os.path.dirname(os.path.abspath(__file__))
+    save_dir = os.path.join(project_root, "Current")
+    for file in glob.glob(os.path.join(save_dir, "*.png")):
+        try:
+            os.remove(file)
+        except Exception as e:
+            print(f"⚠️: {e}")
     Stock_Choice = "TSLA" # allow this to also be a input through the GUI portion instead of being static
     STOCK = yf.Ticker(Stock_Choice)
     period = prd
@@ -42,6 +51,11 @@ def drawgraph(frameview, prd , it):
     canvas.draw()
     canvas.get_tk_widget().grid(padx=20, pady=20, sticky="nsew", row=0, column=0, columnspan=2)
 
+
+
+    save_path = os.path.join(save_dir, "current.png")
+    fig.savefig(save_path, dpi=150)
+    print(f"✅ Chart saved to: {save_path}")
 
 
 # period can be "1d", "5d", "1mo", "3mo", "6mo", "1y", "2y", "5y", "10y", "ytd", or "max".

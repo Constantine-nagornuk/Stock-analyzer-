@@ -16,11 +16,19 @@ def Stock_Graph():
         if number>=6:
             number2 = 1
             number = 3
-        label2 = customtkinter.CTkLabel(master=frame2, text=f'{i},{text2}' , fg_color="#14295c",text_color="#cbd5e1",corner_radius=8,font=("Segoe UI", 14, "bold"),anchor="center",padx=20,pady=6)
+        label2 = customtkinter.CTkLabel(master=frame2, text=f'{i}:{text2}' , fg_color="#14295c",text_color="#cbd5e1",corner_radius=8,font=("Segoe UI", 14, "bold"),anchor="center",padx=20,pady=6)
         label2.grid(row=number , column=number2, pady=10, columnspan=1,sticky="ew")
         number += 1 
+    
+    #take the grpah made by user
+    # download it and allow it to be read by cnn stuff
+    #display it in here
     Pred_Label = customtkinter.CTkLabel(master=frame2, text='Test' , fg_color="red", text_color="White")
     Pred_Label.grid(row=6 , column=0, pady=10, columnspan=2, sticky="ew")
+    
+
+
+
 app = CTk()
 app.geometry("1400x800")
 app.title("Stock-Project")
@@ -64,7 +72,7 @@ frame1.grid_columnconfigure(1, weight=0)
 
 frame2.grid_columnconfigure(0, weight=1)
 frame2.grid_columnconfigure(1, weight=1)
-for i in range(6):
+for i in range(7):
     frame1.grid_rowconfigure(i, weight=0)
 
 # master of frames is tab1 they go into that row and column configure of that
@@ -73,7 +81,8 @@ for i in range(6):
 button = CTkButton(master=frame2, text="Graph", command=Stock_Graph)
 button.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
 
-
+Predict = CTkButton(master=frame2, text="Predict", command= CNN_predict) # its predicts the pre determied file for now
+Predict.grid(row=7, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
 
 
 
