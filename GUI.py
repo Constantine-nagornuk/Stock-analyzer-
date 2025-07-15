@@ -1,7 +1,10 @@
 import customtkinter
 from customtkinter import *
 from API import * 
+from cnn_train import *
+from runCNN import * 
 
+# make everything run in  a function so I dont ruun 50 things when I run ts file
 def Stock_Graph():
     period = period_var.get()
     interval = interval_var.get()
@@ -13,10 +16,11 @@ def Stock_Graph():
         if number>=6:
             number2 = 1
             number = 3
-        label2 = customtkinter.CTkLabel(master=frame2, text=f'{i},{text2}' , fg_color="Black", text_color="White")
-        label2.grid(row=number , column=number2, pady=10, columnspan=1)
+        label2 = customtkinter.CTkLabel(master=frame2, text=f'{i},{text2}' , fg_color="#14295c",text_color="#cbd5e1",corner_radius=8,font=("Segoe UI", 14, "bold"),anchor="center",padx=20,pady=6)
+        label2.grid(row=number , column=number2, pady=10, columnspan=1,sticky="ew")
         number += 1 
-    # make this a loop so I dont have to type out like million things :)
+    Pred_Label = customtkinter.CTkLabel(master=frame2, text='Test' , fg_color="red", text_color="White")
+    Pred_Label.grid(row=6 , column=0, pady=10, columnspan=2, sticky="ew")
 app = CTk()
 app.geometry("1400x800")
 app.title("Stock-Project")
@@ -67,7 +71,9 @@ for i in range(6):
 #--------------------------------------------------------------------------#
 
 button = CTkButton(master=frame2, text="Graph", command=Stock_Graph)
-button.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky="n")
+button.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
+
+
 
 
 
