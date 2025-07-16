@@ -3,13 +3,14 @@ from customtkinter import *
 from API import * 
 from cnn_train import *
 from runCNN import * 
-
+User_input = None
 Pred_Label = None
+
 def Stock_Graph():
     global Pred_Label
     period = period_var.get()
     interval = interval_var.get()
-    drawgraph(frame1,period,interval) 
+    drawgraph(frame1,period,interval,User_input) 
     number = 3
     number2 = 0
     for i in About:
@@ -23,6 +24,7 @@ def Stock_Graph():
     if Pred_Label is None:
         Pred_Label = customtkinter.CTkLabel( master=frame2,text="Prediction will appear here",fg_color="red", text_color="white")
         Pred_Label.grid(row=6, column=0, pady=10, columnspan=2, sticky="ew")
+    
 
 
 app = CTk()
@@ -34,7 +36,7 @@ set_default_color_theme("dark-blue")
 tabview = CTkTabview(master=app)
 tabview.grid(row=0, padx=20, pady=5, sticky="nsew")
 tabview.add("Graph")
-tabview.add("tab 2")
+tabview.add("News")
 tabview.set("Graph")
  
 #--------------------------------------------------------------------------#
@@ -44,10 +46,12 @@ app.grid_columnconfigure(0, weight=1)
 
 tab1 = tabview.tab("Graph")
 tab1.grid_rowconfigure(0, weight=1)
-
 tab1.grid_columnconfigure(0, weight=1)
 tab1.grid_columnconfigure(1, weight=1)
 
+tab2 = tabview.tab("News")
+for i in range(4):
+    tab2.grid_rowconfigure(i, weight=0)
 #--------------------------------------------------------------------------#
 
 frame1 = CTkScrollableFrame(master=tab1,fg_color="transparent", width=500)
@@ -65,7 +69,7 @@ frame2.grid_columnconfigure(1, weight=1)
 for i in range(9):
     frame1.grid_rowconfigure(i, weight=0)
 
-# master of frames is tab1 they go into that row and column configure of that
+
 #--------------------------------------------------------------------------#
 
 button = CTkButton(master=frame2, text="Graph", command=Stock_Graph)
@@ -85,11 +89,15 @@ Stock_Code_Enter.grid(row=8,column=0, columnspan=2, padx=10, pady=10, sticky="ew
 
 def Get_Stock_Code():
     thing = Stock_Code_Enter.get() 
-    print(thing) # make it so that it passes through the other function to dyhnamiclly control what stock graphs
+    print(thing) 
+    global User_input
+    User_input = thing
     Stock_Code_Enter.delete(0, 'end')
+    return User_input
 
 Stock_Code_Enter_Button = CTkButton(master=frame2, text="Enter Code", command= Get_Stock_Code) 
 Stock_Code_Enter_Button.grid(row=9, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
+
 # --- Period OptionMenu --- #
 
 period_options = [

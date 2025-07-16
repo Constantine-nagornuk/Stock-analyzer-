@@ -7,7 +7,7 @@ import os
 import glob
 About = {}
 
-def drawgraph(frameview, prd , it):
+def drawgraph(frameview, prd , it, choice):
     project_root = os.path.dirname(os.path.abspath(__file__))
     save_dir = os.path.join(project_root, "Current")
     for file in glob.glob(os.path.join(save_dir, "*.png")):
@@ -15,19 +15,19 @@ def drawgraph(frameview, prd , it):
             os.remove(file)
         except Exception as e:
             print(f"⚠️: {e}")
-    Stock_Choice = "TSLA" # allow this to also be a input through the GUI portion instead of being static
+    Stock_Choice = choice 
     STOCK = yf.Ticker(Stock_Choice)
     period = prd
     iterval = it
     def General_Info(Input):
-        About["Industry"] = Input["industry"]
-        About["quoteType"] = Input["quoteType"]
-        About["averageAnalystRating"] = Input["averageAnalystRating"] # 1-5 scale, lower is strong sell, higher is stogng buy 
-        About["auditRisk"] = Input["auditRisk"] # % of risk basiclly
-        About["shareHolderRightsRisk"] = Input["shareHolderRightsRisk"] # 1-10 scale higher number  = more risk
-        About["tradeable"] = Input["tradeable"]
-        About["totalDebt"] = Input["totalDebt"]
-        About["Stock"] = Input["regularMarketPreviousClose"]
+        About["Industry"] = Input.get("industry", "N/A")
+        About["quoteType"] = Input.get("quoteType", "N/A")
+        About["averageAnalystRating"] = Input.get("averageAnalystRating", "N/A")
+        About["auditRisk"] = Input.get("auditRisk", "N/A")
+        About["shareHolderRightsRisk"] = Input.get("shareHolderRightsRisk", "N/A")
+        About["tradeable"] = Input.get("tradeable", "N/A")
+        About["totalDebt"] = Input.get("totalDebt", "N/A")
+        About["Stock"] = Input.get("regularMarketPreviousClose", "N/A")
     General_Info(STOCK.info)
 
 
