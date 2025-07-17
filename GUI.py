@@ -3,6 +3,9 @@ from customtkinter import *
 from API import * 
 from cnn_train import *
 from runCNN import * 
+from News import *
+import tkinter.messagebox as mb
+Last_Loaded_Stock = None
 User_input = None
 Pred_Label = None
 
@@ -24,8 +27,46 @@ def Stock_Graph():
     if Pred_Label is None:
         Pred_Label = customtkinter.CTkLabel( master=frame2,text="Prediction will appear here",fg_color="red", text_color="white")
         Pred_Label.grid(row=6, column=0, pady=10, columnspan=2, sticky="ew")
-    
 
+
+
+def Load_News():
+    global User_input, Last_Loaded_Stock
+    if not User_input:
+        return  
+    if User_input == Last_Loaded_Stock:
+        print("News already loaded for this stock.")
+        mb.showwarning("Warning", "News is already loaded for this stock!")
+        return
+    try:
+        stock = yf.Ticker(User_input)
+        news_data = Display_News(stock)
+        # Display news
+        for item in news_data:
+            frame = CTkFrame(master=news_scroll_frame, fg_color="#1e293b", corner_radius=10)
+            frame.pack(padx=10, pady=5, fill="x")
+
+            title = CTkLabel(frame, text=item["title"], font=("Segoe UI", 14, "bold"), text_color="#f1f5f9", wraplength=700, anchor="w", justify="left")
+            title.pack(anchor="w", padx=10, pady=5)
+
+            info = CTkLabel(frame, text=f'{item["pub_date"]} - {item["provider"]}', font=("Segoe UI", 11), text_color="#94a3b8")
+            info.pack(anchor="w", padx=10)
+
+            summary = CTkLabel(frame, text=item["summary"], font=("Segoe UI", 12), text_color="#cbd5e1", wraplength=700, justify="left")
+            summary.pack(anchor="w", padx=10, pady=5)
+
+            link = CTkLabel(frame, text=f"🔗 {item['url']}", font=("Segoe UI", 11), text_color="skyblue", cursor="hand2")
+            link.pack(anchor="w", padx=10, pady=(0, 10))
+            link.bind("<Button-1>", lambda e, url=item['url']: __import__('webbrowser').open_new(url))
+        Last_Loaded_Stock = User_input
+    except Exception as e:
+        print(f"Error fetching news: {e}")
+
+def clear_scrollable_frame(scroll_frame):
+    for widget in scroll_frame.winfo_children():
+        widget.destroy()
+    global Last_Loaded_Stock
+    Last_Loaded_Stock = None  
 
 app = CTk()
 app.geometry("1400x800")
@@ -50,8 +91,10 @@ tab1.grid_columnconfigure(0, weight=1)
 tab1.grid_columnconfigure(1, weight=1)
 
 tab2 = tabview.tab("News")
-for i in range(4):
-    tab2.grid_rowconfigure(i, weight=0)
+tab2.grid_rowconfigure(0, weight=1)
+tab2.grid_columnconfigure(0, weight=1)
+news_scroll_frame = CTkScrollableFrame(master=tab2, fg_color="transparent")
+news_scroll_frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
 #--------------------------------------------------------------------------#
 
 frame1 = CTkScrollableFrame(master=tab1,fg_color="transparent", width=500)
@@ -74,6 +117,12 @@ for i in range(9):
 
 button = CTkButton(master=frame2, text="Graph", command=Stock_Graph)
 button.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
+
+News_Button = CTkButton(master=tab2, text="Load News", command=Load_News)
+News_Button.grid(row=10, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
+
+Clear_News_Button = CTkButton(master=tab2, text="Clear News", command=lambda: clear_scrollable_frame(news_scroll_frame))
+Clear_News_Button.grid(row=11, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
 
 def Pred():
     global Pred_Label
