@@ -6,6 +6,7 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.callbacks import EarlyStopping
+import tkinter.messagebox as mb
 import numpy as np
 import os
 
@@ -99,3 +100,4 @@ def Train_cnn():
     # ✅ Save model
     model.save(MODEL_OUTPUT)  
     print(f"\n✅ Model saved to {MODEL_OUTPUT}")
+    mb.showwarning("Completed","CNN model is now trained and locally on your PC")

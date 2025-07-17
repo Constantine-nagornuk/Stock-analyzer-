@@ -78,6 +78,7 @@ tabview = CTkTabview(master=app)
 tabview.grid(row=0, padx=20, pady=5, sticky="nsew")
 tabview.add("Graph")
 tabview.add("News")
+tabview.add("CNN")
 tabview.set("Graph")
  
 #--------------------------------------------------------------------------#
@@ -95,6 +96,11 @@ tab2.grid_rowconfigure(0, weight=1)
 tab2.grid_columnconfigure(0, weight=1)
 news_scroll_frame = CTkScrollableFrame(master=tab2, fg_color="transparent")
 news_scroll_frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
+
+tab3 = tabview.tab("CNN")
+
+
+
 #--------------------------------------------------------------------------#
 
 frame1 = CTkScrollableFrame(master=tab1,fg_color="transparent", width=500)
@@ -123,6 +129,9 @@ News_Button.grid(row=10, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
 
 Clear_News_Button = CTkButton(master=tab2, text="Clear News", command=lambda: clear_scrollable_frame(news_scroll_frame))
 Clear_News_Button.grid(row=11, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
+
+CNN_Train_Load_Model = CTkButton(master=tab3, text="Train and load CNN model locally", command=Train_cnn)
+CNN_Train_Load_Model.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
 
 def Pred():
     global Pred_Label
